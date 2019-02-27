@@ -1,4 +1,4 @@
-module github.com/estebgonza/Roquette
+module github.com/estebgonza/roquette
 
 go 1.12
 

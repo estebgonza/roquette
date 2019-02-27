@@ -7,7 +7,7 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/estebgonza/Roquette/roquettor"
+	"github.com/estebgonza/roquette/roquettor"
 
 	"github.com/urfave/cli"
 )
@@ -87,15 +87,4 @@ func usageAndExit(msg string) {
 	flag.Usage()
 	fmt.Fprintf(os.Stderr, "\n")
 	os.Exit(1)
-}
-
-type headerSlice []string
-
-func (h *headerSlice) String() string {
-	return fmt.Sprintf("%s", *h)
-}
-
-func (h *headerSlice) Set(value string) error {
-	*h = append(*h, value)
-	return nil
 }

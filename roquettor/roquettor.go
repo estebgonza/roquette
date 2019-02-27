@@ -1,10 +1,8 @@
 package roquettor
 
 import (
-	"fmt"
 	"log"
 
-	"database/sql"
 	// Posgresql driver
 	_ "github.com/lib/pq"
 )
@@ -31,22 +29,26 @@ type Row struct {
 
 // Execute - test
 func Execute(d *Database, p *Plan) {
-	connStr := d.URIConnection
-	fmt.Println(connStr)
-
-	db, err := sql.Open(d.Driver, d.URIConnection)
-	if err != nil {
-		log.Fatal(err)
+	if !checkInputDatabase(d) || !checkInputPlan(p) {
+		log.Fatal("Please check your input files.")
+		return
 	}
+	rclient := NewRClient(d)
+	rclient.query("SHOW TABLE")
+}
 
-	rows, err := db.Query("SHOW TABLES")
-	var c1 string
-	switch err := rows.Scan(&c1); err {
-	case sql.ErrNoRows:
-		fmt.Println("No rows were returned!")
-	case nil:
-		fmt.Println(c1)
-	default:
-		panic(err)
+func checkInputDatabase(d *Database) bool {
+	if d.Driver == "" {
+		log.Fatal("Please specify a driver type.")
+		return false
+	} else if !TypeNameExists(d.Driver) {
+		log.Fatal("Specified type name is not supported.")
+		return false
 	}
+	return true
+}
+
+func checkInputPlan(p *Plan) bool {
+	// TODO: Check Plan inputs
+	return true
 }
