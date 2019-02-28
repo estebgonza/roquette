@@ -6,7 +6,7 @@
 <h1>Roquette</h1>
 <p>Simple CLI to stress your database.</p>
 <a href="https://travis-ci.org/estebgonza/roquette" title="Roquette build">
-  <img src="https://travis-ci.org/estebgonza/Roquette.svg?branch=master" alt="Build Status"/>
+  <img src="https://travis-ci.org/estebgonza/roquette.svg?branch=master" alt="Build Status"/>
 </a>
 </div>
 
