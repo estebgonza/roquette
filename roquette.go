@@ -18,22 +18,14 @@ const (
 )
 
 var (
-	host     = flag.String("m", "GET", "")
-	port     = flag.String("h", "", "")
-	user     = flag.String("d", "", "")
-	password = flag.String("w", "", "")
-
-	c = flag.Int("c", 50, "")
-	n = flag.Int("n", 1, "")
+	run = flag.Bool("run", false, "")
 )
 
 const usage = `
-Usage: roquet [options...] <sql>
+Usage: roquette [options...]
 
 Options:
-  -h  Hostname of Hive server. Default is 'localhost'.
-  -p  Port of Hive server. Default is 10000.
-  -n  Number of queries to run. Default is 1.
+  -run  Execute your plan on specified database.
 `
 
 func main() {
@@ -44,32 +36,35 @@ func main() {
 	}
 
 	flag.Parse()
-	// if flag.NArg() < 1 {
-	// 	usageAndExit("")
-	// }
-	num := *n
-	conc := *c
-	if num <= 0 || conc <= 0 {
-		usageAndExit("-n and -c cannot be smaller than 1.")
+	if !*run {
+		usageAndExit("")
 	}
 
 	var jsonFile *os.File
 	var byteValue []byte
 
 	// Plan
+	// TODO: Improve 'json to struct' operations
 	var p roquettor.Plan
-	jsonFile, _ = os.Open(defaultPlanFile)
+	jsonFile, err := os.Open(defaultPlanFile)
+	if err != nil {
+		errAndExit("No plan.json found, please read https://github.com/estebgonza/roquette")
+	}
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &p)
 
 	// Database
+	// TODO: Improve 'json to struct' operations
 	var d roquettor.Database
-	jsonFile, _ = os.Open(defaultDatabaseFile)
+	jsonFile, err = os.Open(defaultDatabaseFile)
+	if err != nil {
+		errAndExit("No database.json found, please read https://github.com/estebgonza/roquette")
+	}
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &d)
 
 	// Execute plan on specified database
-	err := roquettor.Execute(&d, &p)
+	err = roquettor.Execute(&d, &p)
 	if err != nil {
 		errAndExit(err.Error())
 	}
