@@ -3,6 +3,9 @@
 
 
 <div align="center">
+  <a href="https://github.com/estebgonza/roquette" title="Roquette SQL Stresser logo">
+    <img src="https://i.gyazo.com/1d53fc949d69a25b9f0c259a3aff2b15.png" alt="Roquette SQL Stresser logo"/>
+  </a>
   <h1>Roquette</h1>
   <p>Simple CLI to stress your database.</p>
   <a href="https://travis-ci.org/estebgonza/roquette" title="Roquette SQL Stresser Build">
