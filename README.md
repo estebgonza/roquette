@@ -55,5 +55,5 @@ Roquette need two files to stress a database.
 
 ### Run your plan!
 ```bash
-roquette -run
+roquette run
 ```
