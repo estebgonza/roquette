@@ -44,9 +44,9 @@ func main() {
 	}
 
 	flag.Parse()
-	if flag.NArg() < 1 {
-		usageAndExit("")
-	}
+	// if flag.NArg() < 1 {
+	// 	usageAndExit("")
+	// }
 	num := *n
 	conc := *c
 	if num <= 0 || conc <= 0 {
@@ -69,7 +69,10 @@ func main() {
 	json.Unmarshal(byteValue, &d)
 
 	// Execute plan on specified database
-	roquettor.Execute(&d, &p)
+	err := roquettor.Execute(&d, &p)
+	if err != nil {
+		errAndExit(err.Error())
+	}
 }
 
 func errAndExit(msg string) {

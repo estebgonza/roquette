@@ -1,16 +1,23 @@
 package roquettor
 
 import (
-	"log"
-
 	// Posgresql driver
+
+	"fmt"
+
+	"github.com/estebgonza/roquette/roqclient"
 	_ "github.com/lib/pq"
 )
 
 // Database - Database settings connection
 type Database struct {
-	Driver        string `json:"driver"`
-	URIConnection string `json:"uri-connection"`
+	Driver     string `json:"driver"`
+	Connection struct {
+		Host string `json:"host"`
+		Port int    `json:"port"`
+		User string `json:"user"`
+		Pass string `json:"pass"`
+	} `json:"connection"`
 }
 
 // Plan - Execution plan for roquettor
@@ -28,27 +35,19 @@ type Row struct {
 }
 
 // Execute - test
-func Execute(d *Database, p *Plan) {
-	if !checkInputDatabase(d) || !checkInputPlan(p) {
-		log.Fatal("Please check your input files.")
-		return
+func Execute(d *Database, p *Plan) error {
+	rclient, err := roqclient.NewRClient(d.Driver)
+	if err != nil {
+		return fmt.Errorf("Error while instanciating RoqClient: %s", err.Error())
 	}
-	rclient := NewRClient(d)
-	rclient.query("SHOW TABLE")
-}
-
-func checkInputDatabase(d *Database) bool {
-	if d.Driver == "" {
-		log.Fatal("Please specify a driver type.")
-		return false
-	} else if !TypeNameExists(d.Driver) {
-		log.Fatal("Specified type name is not supported.")
-		return false
+	err = rclient.Connect(d.Connection.Host, d.Connection.Port, d.Connection.User, d.Connection.Pass)
+	if err != nil {
+		return fmt.Errorf("Error while connection: %s", err.Error())
 	}
-	return true
-}
-
-func checkInputPlan(p *Plan) bool {
-	// TODO: Check Plan inputs
-	return true
+	for _, query := range p.Queries {
+		for i := 0; i < query.Repeat; i++ {
+			rclient.Execute(query.SQL)
+		}
+	}
+	return nil
 }

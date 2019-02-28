@@ -1,3 +1,9 @@
+git.apache.org/thrift.git v0.12.0 h1:CMxsZlAmxKs+VAZMlDDL0wXciMblJcutQbEe3A9CYUM=
+git.apache.org/thrift.git v0.12.0/go.mod h1:fPE2ZNJGynbRyZ4dJvy6G277gSllfV2HJqblrnkyeyg=
+github.com/beltran/gohive v0.0.0-20190120162306-279e019eb757 h1:XFG4puk1HgdViaihxGXXKse00VIpxnHIWnmVRbY63mg=
+github.com/beltran/gohive v0.0.0-20190120162306-279e019eb757/go.mod h1:wmzlIuJ79a/F5HuSgiHnh0gx1eu3ronRnMgMIbxYiAA=
+github.com/beltran/gosasl v0.0.0-20190227051617-8455609e065a h1:XUu61aINxZMXFZpOuk8cNIS7C6DHeANGZRhiwSVpBOw=
+github.com/beltran/gosasl v0.0.0-20190227051617-8455609e065a/go.mod h1:4bpdWW6Q7hC2xAn+KT/ueCo1FoklhOMmEeHLhZso7po=
 github.com/lib/pq v1.0.0 h1:X5PMW56eZitiTeO7tKzZxFCSpbFZJtkMMooicw2us9A=
 github.com/lib/pq v1.0.0/go.mod h1:5WUZQaWbwv1U+lTReE5YruASi9Al49XbQIvNi/34Woo=
 github.com/urfave/cli v1.20.0 h1:fDqGv3UG/4jbVl/QkFwEdddtEDjh/5Ov6X+0B/3bPaw=
