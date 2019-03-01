@@ -49,5 +49,7 @@ func Execute(d *Database, p *Plan) error {
 			rclient.Execute(query.SQL)
 		}
 	}
+	// TODO: Temp reporting queries loading
+	fmt.Println("Queries finished")
 	return nil
 }

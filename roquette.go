@@ -2,9 +2,10 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
+	"errors"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 
 	"github.com/estebgonza/roquette/roquettor"
@@ -13,33 +14,48 @@ import (
 )
 
 const (
+	appName        string = "Roquette"
+	appDescription string = "Stress your database"
+	appVersion     string = "0.1"
+
 	defaultPlanFile     string = "plan.json"
 	defaultDatabaseFile string = "database.json"
 )
 
-var (
-	run = flag.Bool("run", false, "")
-)
+const helpTemplate = `
+Usage: {{.HelpName}} [command]
 
-const usage = `
-Usage: roquette [options...]
+{{if .Commands}}Commands:
 
-Options:
-  -run  Execute your plan on specified database.
+{{range .Commands}}{{if not .HideHelp}}{{join .Names ", "}}{{ "\t"}}{{.Usage}}{{ "\n" }}{{end}}{{end}}{{end}}
 `
 
 func main() {
+	cli.AppHelpTemplate = fmt.Sprintf(helpTemplate)
 	app := cli.NewApp()
-	app.Name = "Roquette"
-	flag.Usage = func() {
-		fmt.Fprint(os.Stderr, fmt.Sprintf(usage))
+	app.Name = appName
+	app.Usage = appDescription
+	app.Version = appVersion
+
+	app.Commands = []cli.Command{
+		{
+			Name:   "run",
+			Usage:  "Execute your plan on specified database",
+			Action: run,
+		},
+		{
+			Name:  "init",
+			Usage: "Initialize Roquette files template",
+		},
 	}
 
-	flag.Parse()
-	if !*run {
-		usageAndExit("")
+	err := app.Run(os.Args)
+	if err != nil {
+		log.Fatal(err)
 	}
+}
 
+func run(c *cli.Context) error {
 	var jsonFile *os.File
 	var byteValue []byte
 
@@ -48,7 +64,7 @@ func main() {
 	var p roquettor.Plan
 	jsonFile, err := os.Open(defaultPlanFile)
 	if err != nil {
-		errAndExit("No plan.json found, please read https://github.com/estebgonza/roquette")
+		return errors.New("No plan.json found, please read https://github.com/estebgonza/roquette")
 	}
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &p)
@@ -58,31 +74,11 @@ func main() {
 	var d roquettor.Database
 	jsonFile, err = os.Open(defaultDatabaseFile)
 	if err != nil {
-		errAndExit("No database.json found, please read https://github.com/estebgonza/roquette")
+		return errors.New("No database.json found, please read https://github.com/estebgonza/roquette")
 	}
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &d)
 
 	// Execute plan on specified database
-	err = roquettor.Execute(&d, &p)
-	if err != nil {
-		errAndExit(err.Error())
-	}
-}
-
-func errAndExit(msg string) {
-	fmt.Fprintf(os.Stderr, msg)
-	fmt.Fprintf(os.Stderr, "\n")
-	os.Exit(1)
-}
-
-func usageAndExit(msg string) {
-	fmt.Printf(msg)
-	if msg != "" {
-		fmt.Fprintf(os.Stderr, msg)
-		fmt.Fprintf(os.Stderr, "\n\n")
-	}
-	flag.Usage()
-	fmt.Fprintf(os.Stderr, "\n")
-	os.Exit(1)
+	return roquettor.Execute(&d, &p)
 }
