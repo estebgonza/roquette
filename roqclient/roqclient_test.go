@@ -14,6 +14,14 @@ func TestDriverExist(t *testing.T) {
 		},
 		driver{
 			name:     "postgres",
+			expected: "",
+		},
+		driver{
+			name:     "mysql",
+			expected: "type does'nt exist or not supported",
+		},
+		driver{
+			name:     "oracle",
 			expected: "type does'nt exist or not supported",
 		},
 		driver{
