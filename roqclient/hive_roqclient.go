@@ -23,7 +23,7 @@ func (h *HiveClient) Execute(query string) (int32, error) {
 
 // Connect - Only support SASL connection
 // TODO: Support all connections systems.
-func (h *HiveClient) Connect(host string, port int, user string, pass string) error {
+func (h *HiveClient) Connect(host string, port int, user string, pass string, db string) error {
 	configuration := gohive.NewConnectConfiguration()
 	configuration.Username = user
 	configuration.Password = pass

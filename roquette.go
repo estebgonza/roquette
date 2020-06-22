@@ -79,6 +79,9 @@ func run(c *cli.Context) error {
 	byteValue, _ = ioutil.ReadAll(jsonFile)
 	json.Unmarshal(byteValue, &d)
 
+	if d.Connection.Db == "" {
+		d.Connection.Db = "default"
+	}
 	// Execute plan on specified database
 	return roquettor.Execute(&d, &p)
 }

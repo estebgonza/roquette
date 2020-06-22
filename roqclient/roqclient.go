@@ -12,19 +12,19 @@ type client struct {
 
 var (
 	hive = client{Name: "hive", Client: &HiveClient{}}
-	// postgreSQL = client{Name: "postgres", Client: DefaultClient{}}
+	postgres = client{Name: "postgres", Client: &PqClient{}}
 )
 
 var clients = []client{
 	hive,
-	// postgreSQL,
+	postgres,
 }
 
 /* Clients impl. */
 
 // RoqClient - represents a SQL Database client
 type RoqClient interface {
-	Connect(host string, port int, user string, pass string) error // Returns true if connection is success
+	Connect(host string, port int, user string, pass string, db string) error // Returns true if connection is success
 	Execute(query string) (int32, error)                           // Returns rows count
 }
 

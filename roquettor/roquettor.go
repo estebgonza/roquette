@@ -4,6 +4,7 @@ import (
 	// Posgresql driver
 
 	"fmt"
+	"log"
 
 	"github.com/estebgonza/roquette/roqclient"
 	_ "github.com/lib/pq"
@@ -15,6 +16,7 @@ type Database struct {
 	Connection struct {
 		Host string `json:"host"`
 		Port int    `json:"port"`
+		Db	string `json:"db"`
 		User string `json:"user"`
 		Pass string `json:"pass"`
 	} `json:"connection"`
@@ -40,16 +42,19 @@ func Execute(d *Database, p *Plan) error {
 	if err != nil {
 		return fmt.Errorf("Error while instanciating RoqClient: %s", err.Error())
 	}
-	err = rclient.Connect(d.Connection.Host, d.Connection.Port, d.Connection.User, d.Connection.Pass)
+	err = rclient.Connect(d.Connection.Host, d.Connection.Port, d.Connection.User, d.Connection.Pass, d.Connection.Db)
 	if err != nil {
 		return fmt.Errorf("Error while connection: %s", err.Error())
 	}
 	for _, query := range p.Queries {
 		for i := 0; i < query.Repeat; i++ {
-			rclient.Execute(query.SQL)
+			_, err = rclient.Execute(query.SQL)
+			if err != nil {
+				log.Println(err)
+			}
 		}
 	}
 	// TODO: Temp reporting queries loading
-	fmt.Println("Queries finished")
+	log.Println("Queries finished")
 	return nil
 }
