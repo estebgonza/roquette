@@ -30,7 +30,6 @@ go get -u github.com/estebgonza/roquette
 
 ### Usage
 Roquette need two files to stress a database.
-Currently only Hive database is supported.
 #### database.json
 ```json
 {
