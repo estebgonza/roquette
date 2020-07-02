@@ -17,7 +17,7 @@
 </div>
 
 ## Getting started
-Roquette is a Go program available on multiple platforms. Currently, you should build Roquette to use it.
+Currently, you should "go build" to use Roquette.
 
 ### Supported Databases
 - Hive
