@@ -19,9 +19,9 @@
 ## Getting started
 Roquette is a Go program available on multiple platforms. Currently, you should build Roquette to use it.
 
-### Prerequisites
-- Go
-- Git
+### Supported Databases
+- Hive
+- Postgres
 
 ### Installation
 ```bash 
