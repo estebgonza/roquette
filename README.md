@@ -16,17 +16,14 @@
   </a>
 </div>
 
-## Getting started
-Currently, you should "go build" to use Roquette.
-
-### Supported Databases
-- Hive
-- Postgres
-
 ### Installation
 ```bash 
 go get -u github.com/estebgonza/roquette
 ```
+
+### Supported Databases
+- Hive
+- Postgres
 
 ### Usage
 Roquette need two files to stress a database.
