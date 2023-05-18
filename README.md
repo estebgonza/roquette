@@ -5,9 +5,6 @@
 <div align="center">
   <h1>roquette</h1>
   <p>Simple CLI to stress your database.</p>
-  <a href="https://travis-ci.org/estebgonza/roquette" title="Roquette SQL Stresser Build">
-    <img src="https://travis-ci.org/estebgonza/roquette.svg?branch=master" alt="Roquette SQL Stresser Build"/>
-  </a>
   <a href="https://goreportcard.com/report/github.com/estebgonza/roquette" title="Roquette SQL Stresser Report">
     <img src="https://goreportcard.com/badge/github.com/estebgonza/roquette" alt="Roquette SQL Stresser Report"/>
   </a>
